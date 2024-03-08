@@ -1,36 +1,29 @@
-### Subset Construction Algorithm for DFA:
+### DFA Construction Algorithm for a Given Language:
 
 1. **Input:**
-   - NFA with states Q, alphabet Σ, transition function δ, start state q₀, and set of accepting states F.
+   - Alphabet Σ
+   - Language L over Σ
 
 2. **Initialize:**
-   - Create an empty set of states for the DFA: DQ = ∅.
-   - Compute the ε-closure of the NFA's start state: \(DQ_{\text{start}} = \text{ε-closure}(q₀)\).
+   - Create an empty set of states for the DFA: DQ=∅.
    - Initialize the DFA transition table as an empty table.
 
-3. **Main Loop:**
-   - While there are unmarked states in DQ:
-     - Choose an unmarked state \(DQ_i\) from DQ.
-     - Mark \(DQ_i\).
-     - For each input symbol \(a\) in the alphabet:
-       - Compute the ε-closure of the set \(DQ_i\) on input \(a\): \(DQ_{\text{next}} = \text{ε-closure}(\delta(DQ_i, a))\).
-       - If \(DQ_{\text{next}}\) is not in DQ, add it as a new state and mark it.
-       - Add the transition \(DQ_i \xrightarrow{a} DQ_{\text{next}}\) to the DFA transition table.
+3. **Create States:**
+   - For each subset S of Σ, create a corresponding state in DQ.
 
-4. **DFA Accepting States:**
-   - Any state in DQ that contains at least one accepting state from the NFA is an accepting state in the DFA.
+4. **Define Transitions:**
+   - For each state DQ~i in DQ and each symbol a in Σ:
+     - Define the transition DQ~i (a)-> where DQ~j is the state representing the set of symbols that can follow a in the language.
 
-5. **Output:**
-   - The DFA is represented by the set of states DQ, alphabet Σ, transition table, start state \(DQ_{\text{start}}\), and set of accepting states.
+5. **DFA Accepting States:**
+   - Determine the accepting states based on the subsets that represent words in the language.
 
-### ε-closure Function:
+6. **Output:**
+   - The DFA is represented by the set of states DQ, alphabet Σ, transition table, start state (usually the state corresponding to the empty set), and set of accepting states.
 
-The ε-closure of a state in the NFA is the set of states reachable from that state through ε-transitions.
-
-\[ \text{ε-closure}(q) = \{ q \} \cup \{ p \in Q \,|\, (q, \epsilon) \xrightarrow{*} p \} \]
+### Example:
+Suppose Σ={0,1} and the language L consists of all strings with an even number of 1s. The DFA might have states corresponding to subsets such as {even}, {odd}, etc., where "even" and "odd" represent the parity of the number of 1s.
 
 ### Notes:
-- \(DQ_i\) represents a set of states in the DFA.
-- The asterisk in \((q, \epsilon) \xrightarrow{*} p\) indicates zero or more ε-transitions.
-
-This algorithm systematically explores the states of the DFA, computing transitions based on the ε-closures of NFA states. It's essential to keep track of marked and unmarked states to avoid redundancy in state exploration.
+- The states in DQ directly represent subsets of Σ or conditions based on the language.
+- The transition table is defined based on the language's rules.
