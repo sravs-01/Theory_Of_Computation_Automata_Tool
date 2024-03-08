@@ -1,24 +1,26 @@
 ### DFA Construction Algorithm for a Given Language:
 
-1. **Input:**
+## **Input:**
    - Alphabet Σ
    - Language L over Σ
 
-2. **Initialize:**
+## **DFA Construction Steps**:
+
+1. **Initialize:**
    - Create an empty set of states for the DFA: DQ=∅.
    - Initialize the DFA transition table as an empty table.
 
-3. **Create States:**
+2. **Create States:**
    - For each subset S of Σ, create a corresponding state in DQ.
 
-4. **Define Transitions:**
+3. **Define Transitions:**
    - For each state DQ~i in DQ and each symbol a in Σ:
      - Define the transition DQ~i (a)-> where DQ~j is the state representing the set of symbols that can follow a in the language.
 
-5. **DFA Accepting States:**
+4. **DFA Accepting States:**
    - Determine the accepting states based on the subsets that represent words in the language.
 
-6. **Output:**
+5. **Output:**
    - The DFA is represented by the set of states DQ, alphabet Σ, transition table, start state (usually the state corresponding to the empty set), and set of accepting states.
 
 ### Example:
