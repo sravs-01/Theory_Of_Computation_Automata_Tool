@@ -15,7 +15,7 @@
 
 3. **Define Transitions:**
    - For each state DQ~i in DQ and each symbol a in Σ:
-     - Define the transition DQ~i (a)-> where DQ~j is the state representing the set of symbols that can follow a in the language.
+     - Define the transition DQi (a)-> where DQj is the state representing the set of symbols that can follow a in the language.
 
 4. **DFA Accepting States:**
    - Determine the accepting states based on the subsets that represent words in the language.
