@@ -1,0 +1,23 @@
+{
+  "name": "automata-tool",
+  "version": "1.0.0",
+  "description": "Automata conversion tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [
+    "NFA",
+    "DFA",
+    "automation",
+    "converter",
+    "Node.js",
+    "Express.js"
+  ],
+  "author": "Suman Panigrahi",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.3"
+  }
+}
