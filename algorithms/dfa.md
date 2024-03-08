@@ -14,7 +14,7 @@
    - For each subset S of Σ, create a corresponding state in DQ.
 
 3. **Define Transitions:**
-   - For each state DQ~i in DQ and each symbol a in Σ:
+   - For each state DQi in DQ and each symbol a in Σ:
      - Define the transition DQi (a)-> where DQj is the state representing the set of symbols that can follow a in the language.
 
 4. **DFA Accepting States:**
