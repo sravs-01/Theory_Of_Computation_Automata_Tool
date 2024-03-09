@@ -2,17 +2,17 @@ from graphviz import Digraph
 
 eps = '&#949;'  # HTML entity for epsilon
 
-def subgraphForSymbol(parentGraph: Digraph, symbol: str, node_count: int):
-    newLabel1 = f'q{node_count}'
-    newLabel2 = f'q{node_count + 1}'
+def subgraphForSymbol(dot, symbol, node_count):
+    start_node = f'q{node_count}'
+    end_node = f'q{node_count + 1}'
+    node_count += 2
 
-    label_text = eps if symbol == 'E' else symbol
-    parentGraph.node(newLabel1, label=f'<q<sub>{node_count}</sub>>')
-    parentGraph.node(newLabel2, label=f'<q<sub>{node_count + 1}</sub>>')
+    dot.node(start_node)
+    dot.node(end_node, shape='doublecircle')
 
-    parentGraph.edge(newLabel1, newLabel2, label=label_text)
+    dot.edge(start_node, end_node, label=symbol)
 
-    return [newLabel1, newLabel2]
+    return start_node, end_node
 
 def subgraphForUnion(parentGraph: Digraph, nodes0, nodes1, node_count: int):
     newLabel1 = f'q{node_count}'

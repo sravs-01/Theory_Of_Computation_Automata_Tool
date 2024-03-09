@@ -301,15 +301,18 @@ class Dfa:
                 # Check if transition exists
                 if q >= len(self.d):
                     print('Message NOT accepted, state has no transitions')
-                    break
+                    return  # Exit the loop if the state has no transitions
+
                 if i not in self.d[q].keys():
                     print('Message NOT accepted, state has no transitions with the character')
-                    break
+                    return  # Exit the loop if there is no transition for the character
+
                 # Execute transition
                 q = self.d[q][i]
 
+            # Check if the final state is reached
             if q in self.F:
-                print('Message accepted!')
+                print('Message accepted! The message is accepted.')
             else:
                 print('Message NOT accepted, stopped in an unfinal state')
 
@@ -318,12 +321,16 @@ class Dfa:
         dot.graph_attr['rankdir'] = 'LR'
         dot.node_attr['shape'] = 'circle'
 
-        for i in range(len(self.Q)):
-            dot.node(str(i), label=str(self.Q[i]), shape='doublecircle' if i in self.F else 'circle')
+        # Change state names to alphabet letters
+        state_names = [chr(ord('A') + i) for i in range(len(self.Q))]
 
-        for i in range(len(self.Q)):
+        for i, state_name in enumerate(state_names):
+            dot.node(state_name, label=state_name, shape='doublecircle' if i in self.F else 'circle')
+
+        for i, state_name in enumerate(state_names):
             for symbol, next_state in self.d[i].items():
-                dot.edge(str(i), str(next_state), label=symbol)
+                next_state_name = state_names[next_state]
+                dot.edge(state_name, next_state_name, label=symbol)
 
         dot.render(filename='dfa_visualization', format='pdf', view=True)
     
@@ -384,4 +391,4 @@ dfa.visualize()
 dfa.run()
 
 # Print the DFA details
-# dfa.write()
+dfa.write()
