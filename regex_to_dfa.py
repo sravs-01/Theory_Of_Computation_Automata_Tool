@@ -391,4 +391,4 @@ dfa.visualize()
 dfa.run()
 
 # Print the DFA details
-dfa.write()
+# dfa.write()
