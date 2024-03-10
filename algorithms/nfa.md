@@ -46,4 +46,32 @@ The following algorithm outlines the process of creating a Non-deterministic Fin
 9. **Output:**
     - The NFA is represented by the set of states _Q_, alphabet _Σ_, transition function _δ_, start state _q₀_, and set of accepting states _F_.
 
+# Overview
+
+NFA is defined as a dictionary
+{
+   "states": [
+       <state_ids>,
+       ...
+   ],
+   "initial_state": <initial_state_id>,
+   "final_states": [
+       <state_ids>,
+       ...
+   ],
+   "alphabet": [
+      "$",
+       <symbols>,
+      ...
+   ],
+   "transition_function": {
+       <state_id>: {
+           <symbol>: [
+               <state_ids>,
+           ],
+           ... # transition for all alphabet symbols shoud be present here
+       },
+       ...
+   }
+}
 ---

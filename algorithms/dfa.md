@@ -26,6 +26,40 @@
 ### Example:
 Suppose Σ={0,1} and the language L consists of all strings with an even number of 1s. The DFA might have states corresponding to subsets such as {even}, {odd}, etc., where "even" and "odd" represent the parity of the number of 1s.
 
+# Overview
+DFA is also defined similarly
+{
+   "states": [
+       "phi",
+       <state_ids>,
+       ...
+    ],
+    "initial_state": <state_id>,
+    "final_states":[
+       <state_ids>,
+       ...
+    ],
+    "alphabet": [
+       <symbols>,
+       ...
+    ],
+    "transition_function": {
+        <state_id>: {
+            <symbol>: <state_id>,
+            ... # transition for all alphabet symbols shoud be present here. In case of no transition, symbol must point to phi
+        },
+        ...
+    },
+    "reachable_states": [
+        <state_ids>,
+        ...
+    ],
+    "final_reachable_states": [
+        <state_ids>,
+        ...
+    ],
+}
+
 ### Notes:
 - The states in DQ directly represent subsets of Σ or conditions based on the language.
 - The transition table is defined based on the language's rules.
