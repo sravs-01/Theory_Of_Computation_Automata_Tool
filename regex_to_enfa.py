@@ -1,6 +1,7 @@
 from cgitb import small
 from graphviz import Digraph
 import tempfile
+from tabulate import tabulate as tb
 
 EPSILON = "e"
 OPERATORS = ["+", "*", ")", "(", "?"]
@@ -269,44 +270,21 @@ def draw_nfa(nfa, title=""):
 
     g.view(tempfile.mktemp('.gv'))
 
-def draw_dfa(dfa, title=""):
-    state_name = {}
-    i = 0
-    for state in dfa["reachable_states"]:
-        if state == "phi":
-            state_name[state] = u'\u03A6'
-        else:
-            state_name[state] = "q{}".format(i)
-            i += 1
+    # Print Transition Table
+    header = ['State'] + list(nfa["alphabet"]) + ['ε']
+    table_data = []
 
-    g = Digraph()
-    g.attr(rankdir='LR')
+    for state in nfa["states"]:
+        row = [state_name[state]]
+        for symbol in nfa["alphabet"]:
+            next_states = nfa["transition_function"][state].get(symbol, [])
+            row.append(", ".join([state_name[next_state] for next_state in next_states]))
+        epsilon_transitions = nfa["transition_function"][state].get(EPSILON, [])
+        row.append(", ".join([state_name[epsilon_transition] for epsilon_transition in epsilon_transitions]))
+        table_data.append(row)
 
-    if title == "":
-        title = r'\n\nDFA'
-    else:
-        title = r'\n\nDFA : '+title
-    g.attr(label=title, fontsize='30')
-
-    # mark goal states
-    g.attr('node', shape='doublecircle')
-    for state in dfa["final_reachable_states"]:
-        g.node(state_name[state])
-
-    # add an initial edge
-    g.attr('node', shape='none')
-    g.node("")
-
-    g.attr('node', shape='circle')
-    g.edge("", state_name[dfa["initial_state"]])
-
-    for state in dfa["reachable_states"]:
-        for symbol in dfa["transition_function"][state].keys():
-            transition_state = dfa["transition_function"][state][symbol]
-            g.edge(state_name[state],
-                   state_name[transition_state], label=symbol)
-
-    g.view(tempfile.mktemp('.gv'))
+    print("\nTransition Table:")
+    print(tb(table_data, headers=header, tablefmt='grid'))
 
 ################################
     

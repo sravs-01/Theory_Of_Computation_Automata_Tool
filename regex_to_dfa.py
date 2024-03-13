@@ -1,5 +1,6 @@
 from graphviz import Digraph
 from copy import deepcopy
+from tabulate import tabulate as tb
 
 #Regex validation
 def is_valid_regex(regex):
@@ -333,7 +334,21 @@ class Dfa:
                 dot.edge(state_name, next_state_name, label=symbol)
 
         dot.render(filename='dfa_visualization', format='pdf', view=True)
-    
+
+        # Print Transition Table
+        header = ['State'] + list(self.V)
+        table_data = []
+
+        for i, state_name in enumerate(state_names):
+            row = [state_name]
+            for symbol in self.V:
+                next_state = self.d[i].get(symbol, '-')
+                row.append(chr(ord('A') + next_state) if next_state != '-' else '-')
+            table_data.append(row)
+
+        print("\nTransition Table:")
+        print(tb(table_data, headers=header, tablefmt='grid'))    
+
     def write(self):
         for i in range(len(self.Q)):
             # Printing index, the delta function for that transition and if it's a final state
