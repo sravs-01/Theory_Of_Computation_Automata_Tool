@@ -20,7 +20,7 @@ def get_user_input():
 def epsilonClosure(deltaDict,state,string=""):
     
     closureStack=[state]
-    epsString=string #default epsString=""
+    epsString=string 
     
     while len(closureStack)>0:
         currState=closureStack.pop(0)
@@ -35,14 +35,13 @@ def epsilonClosure(deltaDict,state,string=""):
     epsString.sort()
     return epsString
 
-
 def buildDfa(Q, q0, alphabet, deltaDict, epsilonClosureDict):
 
     dfaStates = [q0]
     dfaDelta = {}
     newDfaStates = [q0]
 
-    trapState = 'ϕ'  # Trap state
+    trapState = 'ϕ'  
     dfaDelta[trapState] = {}
     for alpha in alphabet:
         dfaDelta[trapState][alpha] = trapState
@@ -52,22 +51,18 @@ def buildDfa(Q, q0, alphabet, deltaDict, epsilonClosureDict):
         dfaDelta[currState] = {}
         for alpha in alphabet:
             newState = set()
-            closure1 = set()  # Epsilon closure after alphabet transition
+            closure1 = set()  
 
-            # 1. Transitions from current state (consider both explicit and epsilon transitions)
             for state in currState:
                 if state in deltaDict and alpha in deltaDict[state]:
                     newState.update(set(deltaDict[state][alpha]))
-                # Check for epsilon transitions to reachable states
                 for epsState in epsilonClosureDict[state]:
                     if epsState in deltaDict and alpha in deltaDict[epsState]:
                         newState.update(set(deltaDict[epsState][alpha]))
 
-            # 2. Epsilon closure of states after alphabet transition
             for state in newState:
                 closure1.update(set(epsilonClosureDict[state]))
 
-            # 3. Repeated epsilon closure
             nextStates = set(newState)
             while True:
                 newEpsilonClosure = set()
@@ -77,19 +72,19 @@ def buildDfa(Q, q0, alphabet, deltaDict, epsilonClosureDict):
                     break
                 nextStates.update(newEpsilonClosure)
 
-            newState.update(nextStates)  # Update newState after loop
+            newState.update(nextStates)  
 
             newStateStr = "".join(sorted(list(newState)))
-            if newStateStr not in dfaStates:
-                dfaStates.append(newStateStr)
-                newDfaStates.append(newStateStr)
-            if not newStateStr:  # If newStateStr is empty, transition to trap state
-                newStateStr = trapState
-            dfaDelta[currState][alpha] = newStateStr
+            if newStateStr:  
+                if newStateStr not in dfaStates:
+                    dfaStates.append(newStateStr)
+                    newDfaStates.append(newStateStr)
+                dfaDelta[currState][alpha] = newStateStr
 
-    del dfaDelta['']
+    if '' in dfaDelta:
+        del dfaDelta['']
+
     return dfaDelta
-
 
 def getFinalStates(dfaDelta,F):
     finalStates=[]
@@ -131,7 +126,6 @@ def draw_dfa(dfa_delta, initial_state, final_states):
     dot.graph_attr['rankdir'] = 'LR'
     dot.node_attr['shape'] = 'circle'
 
-    # Adding start state arrow to start state in DFA
     dot.attr('node', shape='none')
     dot.node('')
     dot.edge('', initial_state)
@@ -139,9 +133,9 @@ def draw_dfa(dfa_delta, initial_state, final_states):
     for state, transitions in dfa_delta.items():
         state_str = ''.join(state)
         if state_str in final_states:
-            dot.node(state_str, state_str, shape='doublecircle')  # Final state
+            dot.node(state_str, state_str, shape='doublecircle')  
         else:
-            dot.node(state_str, state_str, shape='circle')  # Non-final state
+            dot.node(state_str, state_str, shape='circle')  
 
     for state, transitions in dfa_delta.items():
         state_str = ''.join(state)
@@ -151,7 +145,6 @@ def draw_dfa(dfa_delta, initial_state, final_states):
 
     dot.render('dfa_diagram', format='pdf', view=True)
 
-    # Print transition states using tabulate
     table_data = []
     for state, transitions in dfa_delta.items():
         state_str = ''.join(state)
@@ -164,7 +157,6 @@ def draw_dfa(dfa_delta, initial_state, final_states):
 
 if __name__ == "__main__":
     Q, q0, alphabet, delta, F = get_user_input()
-    #dict for deltaTransitions
     deltaDict={}
     for state in Q:
         deltaDict[state]={}
@@ -172,7 +164,6 @@ if __name__ == "__main__":
     for trans in delta:
         if trans[0] not in deltaDict:
             deltaDict[trans[0]] = {}
-        # Getting already existing transitions and appending/adding them to list
         existing_transitions = deltaDict[trans[0]].get(str(trans[1]), [])
         deltaDict[trans[0]][str(trans[1])] = existing_transitions + [str(x) for x in trans[2]]
 

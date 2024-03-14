@@ -12,7 +12,6 @@ COUNTER = 0
 def process(infix):
     newInfix = ""
 
-    #iterate through infix, if two adjacent characters are in OPERATORS, add a '.' between them
 
     for index,char in enumerate(infix):
         newInfix = newInfix + char
@@ -67,10 +66,7 @@ def shunt(infix):
 
     return output
 
-###############################
-# REGEX TO NFA
-# Input: string reg_exp
-# Output: NFA nfa such that L(nfa) = L(reg_exp)
+
 
 def regex_to_nfa(reg_exp):
 
@@ -82,14 +78,13 @@ def regex_to_nfa(reg_exp):
 
     for symbol in reg_exp:
         nfa = {
-        "states": [],  # contains state IDs
-        "initial_state": -1,  # contains initial state IDs
-        "final_states": [],  # contains final state IDs
-        "alphabet": [],  # contains all symbols
-        "transition_function": {}  # contains transition functions for alphabet
+        "states": [],  
+        "initial_state": -1,  
+        "final_states": [],  
+        "alphabet": [],  
+        "transition_function": {}  
         }
 
-        #Kleene Star
         if symbol == "*":
 
             left = NFA_STACK.pop()
@@ -112,7 +107,6 @@ def regex_to_nfa(reg_exp):
                     EPSILON: [COUNTER + 1, left["initial_state"]]
                 }
 
-        #Concatenation
         elif symbol == "?":
 
             right = NFA_STACK.pop()
@@ -137,9 +131,7 @@ def regex_to_nfa(reg_exp):
                     EPSILON: [right["initial_state"]]
                 }
         
-        #Union
         elif symbol == "+":
-            # Case 4 - union of two expressions
     
             right = NFA_STACK.pop()
             left = NFA_STACK.pop()
@@ -159,25 +151,21 @@ def regex_to_nfa(reg_exp):
             nfa["transition_function"].update(left["transition_function"])
             nfa["transition_function"].update(right["transition_function"])
 
-            #iterate through nfa2 final states and add transition to nfa 
             for state in left["final_states"]:
                 nfa["transition_function"][state] = {
                     EPSILON: [COUNTER + 1]
                 }
-            #iterate through nfa3 final states and add transition to nfa
             for state in right["final_states"]:
                 nfa["transition_function"][state] = {
                     EPSILON: [COUNTER + 1]
                 }
 
-        #Single Character 
         else:
             
             nfa["states"] = [COUNTER, COUNTER + 1]
             nfa["initial_state"] = COUNTER
             nfa["final_states"] = [COUNTER + 1]
 
-            # Case 1 - single letter
             if symbol != "":
                 
                 nfa["alphabet"] = [symbol]
@@ -188,7 +176,6 @@ def regex_to_nfa(reg_exp):
                     COUNTER + 1: {}
                 }
 
-            # Case 2 - empty string
             elif symbol:
 
                 nfa["alphabet"] = [""]
@@ -203,9 +190,7 @@ def regex_to_nfa(reg_exp):
         COUNTER += 2    
     return nfa
 
-###############################
-# Input: NFA nfa, string s
-# Output: 1 if s is accepted by nfa, 0 otherwise.
+
 
 def in_language(nfa, s):
     InLang = 0
@@ -214,26 +199,20 @@ def in_language(nfa, s):
     
 def in_lang_helper(nfa, s, transtate):
     i = 0
-    #print(s)
-    #print("current state: " + str(transtate))
+    
     for state in nfa["final_states"]:
-        #print("final state: " + str(state))
         if (s == "" and transtate == state):
             return 1;
             
     for index1,symbol in enumerate(nfa["transition_function"][transtate]):
         for index2,newState in enumerate(nfa["transition_function"][transtate][symbol]):
             if (symbol == s[0:1]):
-                #print(newState)
                 i += in_lang_helper(nfa, s[1:], newState)
             elif (symbol == "e"):
-                #print(newState)
                 i += in_lang_helper(nfa, s[0:], newState)
     return i;
 
-###############################
 
-# DRAW NFA / DFA
 def draw_nfa(nfa, title=""):
     state_name = {}
     i = 0
@@ -250,12 +229,10 @@ def draw_nfa(nfa, title=""):
         title = r'\n\nNFA : '+title
     g.attr(label=title, fontsize='30')
 
-    # mark goal states
     g.attr('node', shape='doublecircle')
     for state in nfa['final_states']:
         g.node(state_name[state])
 
-    # add an initial edge
     g.attr('node', shape='none')
     g.node("")
 
@@ -270,7 +247,6 @@ def draw_nfa(nfa, title=""):
 
     g.view(tempfile.mktemp('.gv'))
 
-    # Print Transition Table
     header = ['State'] + list(nfa["alphabet"]) + ['ε']
     table_data = []
 
@@ -286,7 +262,6 @@ def draw_nfa(nfa, title=""):
     print("\nTransition Table:")
     print(tb(table_data, headers=header, tablefmt='grid'))
 
-################################
     
 def validate_strings(nfa, strings):
     for string in strings:
