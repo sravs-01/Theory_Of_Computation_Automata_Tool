@@ -66,8 +66,6 @@ def shunt(infix):
 
     return output
 
-
-
 def regex_to_nfa(reg_exp):
 
     global NFA_STACK
@@ -190,8 +188,6 @@ def regex_to_nfa(reg_exp):
         COUNTER += 2    
     return nfa
 
-
-
 def in_language(nfa, s):
     InLang = 0
     InLang += in_lang_helper(nfa, s, nfa["initial_state"])
@@ -211,7 +207,6 @@ def in_lang_helper(nfa, s, transtate):
             elif (symbol == "e"):
                 i += in_lang_helper(nfa, s[0:], newState)
     return i;
-
 
 def draw_nfa(nfa, title=""):
     state_name = {}
@@ -262,7 +257,6 @@ def draw_nfa(nfa, title=""):
     print("\nTransition Table:")
     print(tb(table_data, headers=header, tablefmt='grid'))
 
-    
 def validate_strings(nfa, strings):
     for string in strings:
         result = in_language(nfa, string)
@@ -270,7 +264,6 @@ def validate_strings(nfa, strings):
             print(f"String '{string}' is valid.")
         else:
             print(f"String '{string}' is not valid.")
-
 
 regex_input = input("Enter a regular expression: ")
 nfa = regex_to_nfa(regex_input)
