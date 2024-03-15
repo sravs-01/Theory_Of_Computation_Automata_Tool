@@ -96,30 +96,25 @@ def getFinalStates(dfaDelta,F):
     
     return finalStates   
     
-def test_dfa(dfa_states, delta_dict, q0, F):
-    while True:
-        input_str = input("Enter a string to test (type 'exit' to stop): ")
-        if input_str.lower() == 'exit':
-            break
+def test_dfa(dfa_delta, q0, input_str, final_states):
+    q = [q0]
+    for symbol in input_str:
+        next_states = []
+        for nfa_state in q:
+            if symbol in dfa_delta[nfa_state]:
+                next_states.extend(dfa_delta[nfa_state][symbol])
 
-        q = [q0]
-        for symbol in input_str:
-            next_states = []
-            for nfa_state in q:
-                if symbol in delta_dict[nfa_state]:
-                    next_states.extend(delta_dict[nfa_state][symbol])
+        if not next_states:
+            print(f"No transition for symbol '{symbol}' in current state(s) {q}.")
+            return
 
-            if not next_states:
-                print(f"No transition for symbol '{symbol}' in current state(s) {q}.")
-                break
+        q = sorted(list(set(next_states)))
 
-            q = sorted(list(set(next_states)))
-
-        accepted = any(set(q) & set(F))
-        if accepted:
-            print("Accepted!")
-        else:
-            print("Not accepted.")
+    accepted = any(set(q) & set(final_states))
+    if accepted:
+        print("Accepted!")
+    else:
+        print("Not accepted.")
 
 def draw_dfa(dfa_delta, initial_state, final_states):
     dot = Digraph()
@@ -183,3 +178,11 @@ if __name__ == "__main__":
     print("Final States ",finalStates)
     
     draw_dfa(dfaDelta,q0,finalStates)
+
+    # Testing DFA
+    while True:
+        input_str = input("Enter a string to test (type 'exit' to stop): ")
+        if input_str.lower() == 'exit':
+            break
+
+        test_dfa(dfaDelta, q0, input_str, finalStates)
