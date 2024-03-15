@@ -179,7 +179,6 @@ if __name__ == "__main__":
     
     draw_dfa(dfaDelta,q0,finalStates)
 
-    # Testing DFA
     while True:
         input_str = input("Enter a string to test (type 'exit' to stop): ")
         if input_str.lower() == 'exit':
