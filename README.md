@@ -32,11 +32,11 @@ This tool will allow users to visualize and simulate how regular expressions and
 
 ## Contributors
 
-- Nadimpalli Venkata Sai Kiran Varma (CB.EN.U4CSE22424)
-- Soma Siva Pravallika (CB.EN.U4CSE22440)
-- Suman Panigrahi (CB.EN.U4CSE22444)
 - Oruganti Sravani (CB.EN.U4CSE22457)
+- Suman Panigrahi (CB.EN.U4CSE22444)
+- Nadimpalli Venkata Sai Kiran Varma (CB.EN.U4CSE22424)
 - Balavida Hemanth Sai Vardhan (CB.EN.U4CSE22464)
+- Soma Siva Pravallika (CB.EN.U4CSE22440)
 
 ## Usage
 
