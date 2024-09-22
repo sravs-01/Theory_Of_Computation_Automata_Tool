@@ -46,9 +46,3 @@ To use the project, follow these steps:
 2. Install the required dependencies and tools for running the simulations.
 3. Run the respective Python scripts (`nfa_to_dfa.py`, `regex_to_dfa.py`, `regex_to_enfa.py`) with appropriate inputs for automata conversion.
 4. The project will output the results, displaying the corresponding DFA or eNFA based on the input.
-
-For detailed instructions on running the project, refer to the provided User Manual.
-
-## License
-
-This project is licensed under the MIT License.
